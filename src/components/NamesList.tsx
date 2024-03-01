@@ -25,19 +25,21 @@ function NamesList() {
     };
 
     const buttonClickHandler = (changeEvent) => {
-        if (changeEvent?.target?.files) {
-            const fileReader = new FileReader();
-            fileReader.readAsText(changeEvent.target.files[0], "UTF-8");
-            fileReader.onload = (fileReaderEvent: ProgressEvent) => {
-                if (fileReaderEvent?.target?.result) {
-                    const list = JSON.parse(fileReaderEvent.target.result);
-                    const flattenedList = list ? flattenListToIndividuals(list) : [];
-                    setNamesList(flattenedList);
-                }
-            };
-        } else {
+        const file = changeEvent?.target?.files?.[0];
+    
+        if (!file) {
             setError('Error: File could not be loaded.');
+            return;
         }
+
+        const fileReader = new FileReader();
+        fileReader.readAsText(file, "UTF-8");
+        
+        fileReader.onload = () => {
+            const list = JSON.parse(fileReader.result);
+            const flattenedList = list ? flattenListToIndividuals(list) : [];
+            setNamesList(flattenedList);
+        };
     };
 
     const filteredNameList = (filterChar: string) => {
