@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
 import VisuallyHiddenInput from '../components/VisuallyHiddenInput';
+import { ResetTvOutlined } from '@mui/icons-material';
 
 function NamesList() {
     // TODO: Set up importing name list from LDS site.
@@ -46,15 +47,13 @@ function NamesList() {
         return namesList?.filter((member: object)=> member?.surname?.charAt(0) === filterChar.toUpperCase());
     };
 
-    const getPositionsAsString = (member) => {
+    const getPositions = (member) => {
         if (member.positions && member.positions.length > 0) {
-            return member.positions.map(position => position.positionTypeName).join(', ');
+            return member.positions;
         }
     }
 
     const alphabet = [...Array(26)].map((_, i) => String.fromCharCode(i + 97).toUpperCase());
-
-    console.log('namesList', namesList);
 
     return (
         <div>
@@ -62,10 +61,10 @@ function NamesList() {
                 <Alert severity="error">{error}</Alert>
             )}
             <Button component="label" variant="contained" onChange={buttonClickHandler} startIcon={<CloudUploadIcon />}>Import ward member list<VisuallyHiddenInput type="file" /></Button>
-            <Typography sx={{ mt: 2, mb: 2, fontSize: 36 }} variant="h1" component="div">
+            <Typography sx={{ mt: 2, mb: 2, fontSize: 24 }} variant="h1" component="div">
                 Ward Member List
             </Typography>
-            <Typography sx={{ mt: 2, mb: 2, fontSize: 18 }} variant="h2" component="div">
+            <Typography sx={{ mt: 2, mb: 2, fontSize: 16 }} variant="h2" component="div">
                 Fort Herriman SA Ward
             </Typography>
             <List 
@@ -77,32 +76,38 @@ function NamesList() {
                     // bgcolor: 'background.paper',
                     position: 'relative',
                     overflow: 'auto',
-                    maxHeight: 700,
+                    maxHeight: 800,
                     '& ul': { padding: 0 },
                     padding: 0,
                 }} >
                 {alphabet.map((sectionId) => (
-                        <li key={`section-${sectionId}`}>
-                        <ul>
-                            <ListSubheader>{`${sectionId}`}</ListSubheader>
-                            {filteredNameList(sectionId) && filteredNameList(sectionId).map((member) => (
-                            <ListItem key={`item-${sectionId}-${member.uuid}`}>
-                                <ListItemAvatar>
-                                    <Avatar></Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={`${member?.name}`}
-                                    secondary={getPositionsAsString(member)}
-                                    secondaryTypographyProps={{ sx: { color: "red" } }}
-                                    sx={{
-                                        color: 'white'
-                                    }}
-                                />
-                            </ListItem>
-                            ))}
-                        </ul>
-                        </li>
-                    ))}
+                    <li key={`section-${sectionId}`}>
+                    <ul>
+                        <ListSubheader>{`${sectionId}`}</ListSubheader>
+                        {filteredNameList(sectionId) && filteredNameList(sectionId).map((member) => (
+                        <ListItem key={`item-${sectionId}-${member.uuid}`}>
+                            <ListItemAvatar>
+                                <Avatar></Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                                disableTypography
+                                sx={{
+                                    color: 'white'
+                                }}>
+                                    <Typography sx={{ fontSize: 16 }} variant="h2" component="div">
+                                        {member?.name}
+                                    </Typography>
+                                    <List>
+                                        {getPositions(member)?.map((position) => (
+                                            <ListItem key={`item-${position?.uuid}`} sx={{ padding: 0, fontSize: 14 }}>{position?.positionTypeName} - {position?.unitName}</ListItem>
+                                        ))}
+                                    </List>
+                            </ListItemText>
+                        </ListItem>
+                        ))}
+                    </ul>
+                    </li>
+                ))}
             </List>
         </div>
     );

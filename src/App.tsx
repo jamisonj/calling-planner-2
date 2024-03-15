@@ -8,11 +8,11 @@ import CallingsList from './components/CallingsList';
 function App() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={5}>
-        <Grid item xs={4}>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
           <NamesList/>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <CallingsList/>
         </Grid>
       </Grid>
