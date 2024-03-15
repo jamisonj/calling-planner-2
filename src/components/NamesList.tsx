@@ -64,7 +64,7 @@ function NamesList() {
             <Typography sx={{ mt: 2, mb: 2, fontSize: 24 }} variant="h1" component="div">
                 Ward Member List
             </Typography>
-            <Typography sx={{ mt: 2, mb: 2, fontSize: 16 }} variant="h2" component="div">
+            <Typography sx={{ mt: 2, mb: 2, fontSize: 14 }} variant="h2" component="div">
                 Fort Herriman SA Ward
             </Typography>
             <List 
@@ -94,12 +94,14 @@ function NamesList() {
                                 sx={{
                                     color: 'white'
                                 }}>
-                                    <Typography sx={{ fontSize: 16 }} variant="h2" component="div">
+                                    <Typography sx={{ fontSize: 18 }} variant="h2" component="div">
                                         {member?.name}
                                     </Typography>
                                     <List>
                                         {getPositions(member)?.map((position) => (
-                                            <ListItem key={`item-${position?.uuid}`} sx={{ padding: 0, fontSize: 14 }}>{position?.positionTypeName} - {position?.unitName}</ListItem>
+                                            <ListItem key={`item-${position?.uuid}`} sx={{ marginBottom: 1, marginTop: 1, padding: 0, fontSize: 12 }}>
+                                                 {position?.positionTypeName} ({position?.unitName})
+                                            </ListItem>
                                         ))}
                                     </List>
                             </ListItemText>
