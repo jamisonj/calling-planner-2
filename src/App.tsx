@@ -1,19 +1,22 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import Icon from '@mui/material/Icon';
-import Button from '@mui/material/Button';
 import './App.css';
 import './components/NamesList';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import NamesList from './components/NamesList';
+import CallingsList from './components/CallingsList';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <section>
-      <NamesList/>
-    </section>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={5}>
+        <Grid item xs={4}>
+          <NamesList/>
+        </Grid>
+        <Grid item xs={8}>
+          <CallingsList/>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 

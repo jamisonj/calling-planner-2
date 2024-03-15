@@ -9,7 +9,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import VisuallyHiddenInput from '../components/VisuallyHiddenInput';
 
 function NamesList() {
     // TODO: Set up importing name list from LDS site.
@@ -52,24 +52,12 @@ function NamesList() {
         }
     }
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
-
     const alphabet = [...Array(26)].map((_, i) => String.fromCharCode(i + 97).toUpperCase());
 
     console.log('namesList', namesList);
 
     return (
-        <section>
+        <div>
             { !namesList && error && (
                 <Alert severity="error">{error}</Alert>
             )}
@@ -84,13 +72,14 @@ function NamesList() {
                 dense={false}
                 sx={{
                     width: '100%',
-                    maxWidth: 360,
+                    // maxWidth: 360,
                     color: 'white',
                     // bgcolor: 'background.paper',
                     position: 'relative',
                     overflow: 'auto',
-                    maxHeight: 300,
+                    maxHeight: 700,
                     '& ul': { padding: 0 },
+                    padding: 0,
                 }} >
                 {alphabet.map((sectionId) => (
                         <li key={`section-${sectionId}`}>
@@ -104,6 +93,7 @@ function NamesList() {
                                 <ListItemText
                                     primary={`${member?.name}`}
                                     secondary={getPositionsAsString(member)}
+                                    secondaryTypographyProps={{ sx: { color: "red" } }}
                                     sx={{
                                         color: 'white'
                                     }}
@@ -114,7 +104,7 @@ function NamesList() {
                         </li>
                     ))}
             </List>
-        </section>
+        </div>
     );
 }
 
