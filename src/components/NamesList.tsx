@@ -10,16 +10,28 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Typography from '@mui/material/Typography';
 import VisuallyHiddenInput from '../components/VisuallyHiddenInput';
-import { ResetTvOutlined } from '@mui/icons-material';
+
+interface name {
+    uuid: string;
+    name: string;
+    surname: string;
+}
+
+interface household {
+    uuid: string;
+    name: string;
+    surname: string;
+    members: name[];
+}
 
 function NamesList() {
     // TODO: Set up importing name list from LDS site.
-    const [namesList, setNamesList] = useState<Array>();
+    const [namesList, setNamesList] = useState<name[]>();
     const [error, setError] = useState<string>();
 
-    const flattenListToIndividuals = (list: Array<object>) => {
-        const result = [];
-        list?.forEach((household) => {
+    const flattenListToIndividuals = (list: Array<household>) => {
+        const result: name[] = [];
+        list?.forEach((household: household) => {
             result.push(...household.members);
         });
         return result;
@@ -37,14 +49,14 @@ function NamesList() {
         fileReader.readAsText(file, "UTF-8");
         
         fileReader.onload = () => {
-            const list = JSON.parse(fileReader.result);
+            const list = JSON.parse(fileReader.result as string);
             const flattenedList = list ? flattenListToIndividuals(list) : [];
             setNamesList(flattenedList);
         };
     };
 
     const filteredNameList = (filterChar: string) => {
-        return namesList?.filter((member: object)=> member?.surname?.charAt(0) === filterChar.toUpperCase());
+        return namesList?.filter((member: name)=> member?.surname?.charAt(0) === filterChar.toUpperCase()) || [];
     };
 
     const getPositions = (member) => {
@@ -80,12 +92,12 @@ function NamesList() {
                     '& ul': { padding: 0 },
                     padding: 0,
                 }} >
-                {alphabet.map((sectionId) => (
-                    <li key={`section-${sectionId}`}>
+                {alphabet.map((sectionLetter) => (
+                    <li key={`section-${sectionLetter}`}>
                     <ul>
-                        <ListSubheader>{`${sectionId}`}</ListSubheader>
-                        {filteredNameList(sectionId) && filteredNameList(sectionId).map((member) => (
-                        <ListItem key={`item-${sectionId}-${member.uuid}`}>
+                        <ListSubheader>{`${sectionLetter}`}</ListSubheader>
+                        {filteredNameList(sectionLetter) && filteredNameList(sectionLetter).map((member) => (
+                        <ListItem key={`item-${sectionLetter}-${member.uuid}`}>
                             <ListItemAvatar>
                                 <Avatar></Avatar>
                             </ListItemAvatar>

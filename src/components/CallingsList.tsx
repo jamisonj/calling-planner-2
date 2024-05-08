@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Typography from '@mui/material/Typography';
 import VisuallyHiddenInput from '../components/VisuallyHiddenInput';
 
+interface calling {
+    name: string;
+}
+
 function CallingsList() {
-    const [callingsList, setCallingsList] = useState<Array>();
+    const [callingsList, setCallingsList] = useState<calling[]>();
     const [error, setError] = useState<string>();
 
     const buttonClickHandler = (changeEvent) => {
@@ -19,7 +24,7 @@ function CallingsList() {
         fileReader.readAsText(file, "UTF-8");
         
         fileReader.onload = () => {
-            const list = JSON.parse(fileReader.result);
+            const list = JSON.parse(fileReader.result as string);
             setCallingsList(list);
         };
     };
@@ -27,6 +32,11 @@ function CallingsList() {
     return (
         <div>
             <Button component="label" variant="contained" onChange={buttonClickHandler} startIcon={<CloudUploadIcon />} sx={{ textAlign: 'left'}}>Import callings list<VisuallyHiddenInput type="file" /></Button>
+            {!error && callingsList && callingsList.map((calling) => (
+                <Typography sx={{ mt: 2, mb: 2, fontSize: 24 }} variant="h1" component="div">
+                    {calling?.name}
+                </Typography>
+            ))}
         </div>
     );
 }
