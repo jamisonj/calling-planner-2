@@ -72,12 +72,9 @@ function NamesList() {
             { !namesList && error && (
                 <Alert severity="error">{error}</Alert>
             )}
-            <Button component="label" variant="contained" onChange={buttonClickHandler} startIcon={<CloudUploadIcon />}>Import ward member list<VisuallyHiddenInput type="file" /></Button>
+            <Button component="label" variant="contained" onChange={buttonClickHandler} startIcon={<CloudUploadIcon />}>Import Names list<VisuallyHiddenInput type="file" /></Button>
             <Typography sx={{ mt: 2, mb: 2, fontSize: 24 }} variant="h1" component="div">
-                Ward Member List
-            </Typography>
-            <Typography sx={{ mt: 2, mb: 2, fontSize: 14 }} variant="h2" component="div">
-                Fort Herriman SA Ward
+                Names List
             </Typography>
             <List 
                 dense={false}
