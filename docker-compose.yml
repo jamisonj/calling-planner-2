@@ -3,17 +3,17 @@ services:
     container_name: calling-planner
     image: "node:20-alpine"
     user: "node"
-    working_dir: /home/node/app
+    working_dir: /home/node/app/client
     environment:
       NODE_ENV: 'production'
       AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
       AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
       REGION: 'us-west-2'
     volumes:
-      - ./:/home/node/app
+      - ./client:/home/node/app/client
     ports:
       - 8080:8080
-    command: sh -c "npm run dev"
+    command: sh -c "npm i && npm run dev"
     depends_on:
      - dynamodb
   dynamodb:
