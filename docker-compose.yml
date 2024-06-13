@@ -5,15 +5,15 @@ services:
     user: "node"
     working_dir: /home/node/app/client
     environment:
-      NODE_ENV: 'production'
+      NODE_ENV: 'development'
       AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
       AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
       REGION: 'us-west-2'
     volumes:
-      - ./client:/home/node/app/client
+      - ./:/home/node/app
     ports:
       - 8080:8080
-    command: sh -c "npm i && npm run dev"
+    command: sh -c "npm i && npm run build && npm run dev"
     depends_on:
      - dynamodb
   dynamodb:
