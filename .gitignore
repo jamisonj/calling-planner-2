@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 docker
+client/.vite*
 
 # Editor directories and files
 .vscode/*
