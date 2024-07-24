@@ -1,19 +1,36 @@
 services:
-  node:
-    container_name: calling-planner
+  client:
+    container_name: client
     image: "node:20-alpine"
     user: "node"
-    working_dir: /home/node/app
+    working_dir: /home/node/app/client
     environment:
       NODE_ENV: 'development'
       AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
       AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
       REGION: 'us-west-2'
     volumes:
-      - ./:/home/node/app
+      - ./client:/home/node/app/client
     ports:
       - 8080:8080
-    command: sh -c "npm run dev"
+    command: sh -c "npm i && npm run build && npm run dev"
+    depends_on:
+     - dynamodb
+  server:
+    container_name: server
+    image: "node:20-alpine"
+    user: "node"
+    working_dir: /home/node/app/server
+    environment:
+      NODE_ENV: 'development'
+      AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
+      AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
+      REGION: 'us-west-2'
+    volumes:
+      - ./server:/home/node/app/server
+    ports:
+      - 8081:8081
+    command: sh -c "npm i && npm run dev"
     depends_on:
      - dynamodb
   dynamodb:
@@ -31,7 +48,7 @@ services:
     image: "aaronshaf/dynamodb-admin:latest"
     command: sh -c "npm i && npm run dev"
     ports:
-     - "8001:8001"
+     - 8001:8001
     depends_on:
      - dynamodb
     environment:
@@ -39,4 +56,7 @@ services:
       AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
       AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
       AWS_REGION: 'us-west-2'
+networks:
+  calling-planner:
+    driver: bridge
     
